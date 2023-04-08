@@ -1,7 +1,5 @@
 using System.IO;
 using System.Reflection;
-using FluentNHibernate;
-using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using MudBlazor.Services;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
+using Tapp.Notes.Data;
 
 namespace Tapp;
 
@@ -42,6 +41,7 @@ public static class Startup
         services.AddSingleton(sessionFactory);
 
         services.AddScoped(factory => sessionFactory.OpenSession());
+        services.AddSingleton<INoteRepository, NoteRepository>();
 
 #if DEBUG
         services.AddBlazorWebViewDeveloperTools();
