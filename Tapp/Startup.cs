@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MudBlazor.Services;
 
 namespace Tapp;
 
@@ -18,6 +19,7 @@ public static class Startup
     private static void SetupServices(HostBuilderContext context, IServiceCollection services)
     {
         services.AddWpfBlazorWebView();
+        services.AddMudServices();
 
 #if DEBUG
         services.AddBlazorWebViewDeveloperTools();
