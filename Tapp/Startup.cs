@@ -42,6 +42,7 @@ public static class Startup
 
         services.AddScoped(factory => sessionFactory.OpenSession());
         services.AddSingleton<INoteRepository, NoteRepository>();
+        services.AddSingleton<INoteService, NoteService>();
 
 #if DEBUG
         services.AddBlazorWebViewDeveloperTools();
