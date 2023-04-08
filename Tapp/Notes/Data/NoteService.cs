@@ -1,9 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Tapp.Notes.Types.Dto;
+﻿using Tapp.Notes.Types.Dto;
 
 namespace Tapp.Notes.Data;
 
-public sealed class NoteService
+public interface INoteService
+{
+    Guid AddNote();
+    List<NoteDto> GetAll();
+    NoteDto GetByReference(Guid reference);
+}
+
+public sealed class NoteService : INoteService
 {
     private readonly INoteRepository _noteRepository;
 
@@ -22,6 +28,11 @@ public sealed class NoteService
             LastUpdated = DateTime.Now,
             Content = "Test"
         });
+    }
+
+    public List<NoteDto> GetAll()
+    {
+        return _noteRepository.GetAll();
     }
 
     public NoteDto GetByReference(Guid reference)
