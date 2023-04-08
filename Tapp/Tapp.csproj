@@ -12,10 +12,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentNHibernate" Version="3.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.*" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
         <PackageReference Include="MudBlazor" Version="6.2.1-dev3" />
         <PackageReference Include="MudBlazor.ThemeManager" Version="1.0.7" />
+        <PackageReference Include="NHibernate" Version="5.4.2" />
+        <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
     </ItemGroup>
 
     <ItemGroup>
