@@ -7,9 +7,9 @@ public sealed class NoteService
 {
     private readonly INoteRepository _noteRepository;
 
-    public NoteService()
+    public NoteService(INoteRepository noteRepository)
     {
-        _noteRepository = Startup.Services.GetService<INoteRepository>();
+        _noteRepository = noteRepository;
     }
 
     public Guid AddNote()
