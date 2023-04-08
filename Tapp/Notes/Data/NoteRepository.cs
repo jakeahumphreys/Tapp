@@ -1,13 +1,15 @@
 ﻿using System.Data;
 using NHibernate;
-using Tapp.Notes.Types;
+using Tapp.Notes.Mappers;
+using Tapp.Notes.Types.Dto;
+using Tapp.Notes.Types.Records;
 
 namespace Tapp.Notes.Data;
 
 public interface INoteRepository
 {
-    public Guid Add(NoteRecord noteRecord);
-    public NoteRecord GetByReference(Guid reference);
+    public Guid Add(NoteDto noteDto);
+    public NoteDto GetByReference(Guid reference);
 }
 
 public sealed class NoteRepository : INoteRepository
@@ -19,21 +21,23 @@ public sealed class NoteRepository : INoteRepository
         _session = session;
     }
 
-    public Guid Add(NoteRecord noteRecord)
+    public Guid Add(NoteDto noteDto)
     {
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
-            _session.Save(noteRecord);
+            var record = NoteMapper.ToRecord(noteDto);
+            _session.Save(record);
             transaction.Commit();
-            return noteRecord.Reference;
+            return noteDto.Reference;
         }
     }
 
-    public NoteRecord GetByReference(Guid reference)
+    public NoteDto GetByReference(Guid reference)
     {
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
-            return _session.Query<NoteRecord>().SingleOrDefault(x => x.Reference == reference);
+            var record = _session.Query<NoteRecord>().SingleOrDefault(x => x.Reference == reference);
+            return NoteMapper.ToDto(record);
         }
     }
 }

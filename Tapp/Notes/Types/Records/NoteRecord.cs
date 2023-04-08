@@ -1,6 +1,6 @@
 ﻿using FluentNHibernate.Mapping;
 
-namespace Tapp.Notes.Types;
+namespace Tapp.Notes.Types.Records;
 
 public sealed class NoteRecord
 {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Tapp.Notes.Types;
+using Tapp.Notes.Types.Dto;
 
 namespace Tapp.Notes.Data;
 
@@ -14,7 +14,7 @@ public sealed class NoteService
 
     public Guid AddNote()
     {
-        return _noteRepository.Add(new NoteRecord
+        return _noteRepository.Add(new NoteDto
         {
             Reference = Guid.NewGuid(),
             Title = "Test",
@@ -24,7 +24,7 @@ public sealed class NoteService
         });
     }
 
-    public NoteRecord GetByReference(Guid reference)
+    public NoteDto GetByReference(Guid reference)
     {
         return _noteRepository.GetByReference(reference);
     }
