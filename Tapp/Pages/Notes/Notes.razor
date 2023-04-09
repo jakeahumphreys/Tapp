@@ -49,7 +49,8 @@
 
     public string TruncateIfNeededAndDecorate(string value)
     {
-        return value.Length > 10 ? $"{value.Substring(0, 60)}..." : $"{value}...";
+        var maxLength = 60;
+        return value.Length > maxLength ? $"{value.Substring(0, maxLength)}..." : $"{value}...";
     }
 
     public void CreateNote()
