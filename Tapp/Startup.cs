@@ -9,6 +9,7 @@ using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 using Tapp.Common.Helpers;
 using Tapp.Notes.Data;
+using Tapp.Settings;
 
 namespace Tapp;
 
@@ -42,6 +43,8 @@ public static class Startup
         services.AddScoped(factory => sessionFactory.OpenSession());
         services.AddSingleton<INoteRepository, NoteRepository>();
         services.AddSingleton<INoteService, NoteService>();
+
+        services.AddSingleton<IExportService, ExportService>();
 
 #if DEBUG
         services.AddBlazorWebViewDeveloperTools();

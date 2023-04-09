@@ -1,6 +1,7 @@
 ﻿@page "/Settings/Settings"
 @using System.IO
 @using Tapp.Common.Helpers
+@using Tapp.Settings
 <h3>Settings</h3>
 
 <MudContainer>
@@ -16,7 +17,7 @@
                     <MudText>Data size on disk: @GetDatabaseSize() Megabytes</MudText>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.ExitToApp" Color="Color.Primary">Export JSON</MudButton>
+                    <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.ExitToApp" Color="Color.Primary" OnClick="ExportData">Export JSON</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -24,11 +25,17 @@
 </MudContainer>
 
 @code {
-
+    [Inject] protected IExportService _exportService { get; set; }
+    
     private long GetDatabaseSize()
     {
         var file = new FileInfo(FilePathHelper.DbFile);
 
         return (file.Length / 1024) ;
+    }
+
+    private void ExportData()
+    {
+        _exportService.ExportData();
     }
 }
