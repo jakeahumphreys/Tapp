@@ -1,1 +1,43 @@
 ﻿@page "/"
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h3" Class="d-flex align-center justify-center mud-width-full py-8">Dashboard</MudText>
+    </MudItem>
+    <MudItem xs="6">
+        <MudPaper Class="d-flex mud-width-full py-8 p-4">
+            <MudText Typo="Typo.h6">Good @GetTimeOfDay()</MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="6">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=6</MudPaper>
+    </MudItem>
+    <MudItem xs="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=3</MudPaper>
+    </MudItem>
+    <MudItem xs="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=3</MudPaper>
+    </MudItem>
+    <MudItem xs="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=3</MudPaper>
+    </MudItem>
+    <MudItem xs="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">xs=3</MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code{
+
+    public string GetTimeOfDay()
+    {
+        var currentTime = DateTime.Now.Hour;
+
+        if (currentTime >= 0 && currentTime < 12)
+            return "Morning";
+
+        if (currentTime >= 12 && currentTime < 17)
+            return "Afternoon";
+
+        return "Evening";
+    }
+}
