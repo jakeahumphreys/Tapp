@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using MudBlazor.Services;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
+using Tapp.Common.Helpers;
 using Tapp.Notes.Data;
 
 namespace Tapp;
@@ -26,10 +27,8 @@ public static class Startup
 
     private static void CreateAppDirectory()
     {
-        var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Tapp");
-
-        if (!Directory.Exists(appDataFolder))
-            Directory.CreateDirectory(appDataFolder);
+        if (!Directory.Exists(FilePathHelper.AppDataFolder))
+            Directory.CreateDirectory(FilePathHelper.AppDataFolder);
     }
 
     private static void SetupServices(HostBuilderContext context, IServiceCollection services)
@@ -48,13 +47,10 @@ public static class Startup
         services.AddBlazorWebViewDeveloperTools();
 #endif
     }
-    
-    public static ISessionFactory CreateSessionFactory()
-    {
-        var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Tapp");
 
-        var dbFile = Path.Combine(appDataFolder, "userdata.sqlite");
-        var connectionString = $"Data Source={dbFile};Version=3;New=True;";
+    private static ISessionFactory CreateSessionFactory()
+    {
+        var connectionString = $"Data Source={FilePathHelper.DbFile};Version=3;New=True;";
         return Fluently.Configure()
             .Database(SQLiteConfiguration.Standard.ConnectionString(connectionString))
             .Mappings(m => m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly())
