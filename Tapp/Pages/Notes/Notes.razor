@@ -1,7 +1,8 @@
-﻿@page "/Notes"
+﻿@page "/Notes/Notes"
 @using Tapp.Notes.Data
 @using Tapp.Notes.Types.Dto
 <h3>Notes</h3>
+<MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="() => CreateNote()" aria-label="New"></MudIconButton>
 <MudDivider/>
 <br/>
 <MudContainer>
@@ -34,6 +35,7 @@
 
 @code {
     [Inject] protected INoteService _noteService { get; set; }
+    [Inject] protected NavigationManager _navigationManager { get; set; }
     
     public List<NoteDto> AllNotes { get; set; }
 
@@ -48,5 +50,10 @@
     public string TruncateIfNeededAndDecorate(string value)
     {
         return value.Length > 10 ? $"{value.Substring(0, 60)}..." : $"{value}...";
+    }
+
+    public void CreateNote()
+    {
+        _navigationManager.NavigateTo("/Notes/AddNote");
     }
 }

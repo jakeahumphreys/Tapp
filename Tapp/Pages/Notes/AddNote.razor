@@ -1,0 +1,59 @@
+﻿@page "/Notes/AddNote"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using Tapp.Notes.Data
+@using Tapp.Pages.Notes.Models
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Title" HelperText="A great note needs a great title.."
+                              @bind-Value="model.Title" For="@(() => model.Title)"/>
+                <MudTextField Label="Content" HelperText="What's a note without some content?.." Class="mt-3"
+                              @bind-Value="model.Content" For="@(() => model.Content)" Lines="60"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" sm="5">
+        <MudPaper Class="pa-4 mud-height-full">
+            <MudText Typo="Typo.subtitle2">Validation Summary</MudText>
+            @if (success)
+            {
+                <MudText Color="Color.Success">Success</MudText>
+            }
+            else
+            {
+                <MudText Color="@Color.Error">
+                    <ValidationSummary />
+                </MudText>
+            }
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Fill out the form correctly to see the success message.
+        </MudText>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+    [Inject] protected INoteService _noteService { get; set; }
+    AddNoteModel model = new AddNoteModel();
+    bool success;
+    
+
+    private void OnValidSubmit(EditContext context)
+    {
+        var note = _noteService.AddNote(model);
+        success = true;
+        StateHasChanged();
+    }
+
+}
