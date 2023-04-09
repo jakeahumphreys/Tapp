@@ -23,7 +23,7 @@
                       </MudCardContent>
                       <MudCardActions>
                           <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Default" />
-                          <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+                          <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="(() => DeleteNote(note))"/>
                       </MudCardActions>
                 </MudCard>
            </MudItem>
@@ -47,14 +47,21 @@
         return base.OnInitializedAsync();
     }
 
-    public string TruncateIfNeededAndDecorate(string value)
+    private string TruncateIfNeededAndDecorate(string value)
     {
         var maxLength = 60;
         return value.Length > maxLength ? $"{value.Substring(0, maxLength)}..." : $"{value}...";
     }
 
-    public void CreateNote()
+    private void CreateNote()
     {
         _navigationManager.NavigateTo("/Notes/AddNote");
+    }
+
+    private void DeleteNote(NoteDto note)
+    {
+        _noteService.DeleteNote(note.Reference);
+        AllNotes.Remove(note);
+        StateHasChanged();
     }
 }

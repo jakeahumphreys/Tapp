@@ -9,6 +9,7 @@ namespace Tapp.Notes.Data;
 public interface INoteRepository
 {
     public Guid Add(NoteDto noteDto);
+    public void Delete(Guid reference);
     public List<NoteDto> GetAll();
     public NoteDto GetByReference(Guid reference);
 }
@@ -31,6 +32,21 @@ public sealed class NoteRepository : INoteRepository
             transaction.Commit();
             return noteDto.Reference;
         }
+    }
+
+    public void Delete(Guid reference)
+    {
+        using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
+        {
+            var noteRecord = _session.Query<NoteRecord>().FirstOrDefault(x => x.Reference == reference);
+
+            if (noteRecord == null)
+                return;
+            
+            _session.Delete(noteRecord);
+            transaction.Commit();
+        }
+        
     }
 
     public List<NoteDto> GetAll()
