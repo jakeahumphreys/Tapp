@@ -62,10 +62,9 @@ public sealed class NoteRepository : INoteRepository
                 notes = noteRecords.Select(NoteMapper.ToDto).ToList();
             }
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            Console.WriteLine(e);
-            throw;
+            return new Result<List<NoteDto>>().WithError(exception.Message);
         }
        
         
