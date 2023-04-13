@@ -2,14 +2,14 @@
 
 namespace Tapp.Notes.Types.Records;
 
-public sealed class NoteRecord
+public class NoteRecord
 {
-    public int Id { get; set; }
-    public Guid Reference { get; set; }
-    public string Title { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime LastUpdated { get; set; }
-    public string Content { get; set; }
+    public virtual int Id { get; set; }
+    public virtual Guid Reference { get; set; }
+    public virtual string Title { get; set; }
+    public virtual DateTime CreatedAt { get; set; }
+    public virtual DateTime LastUpdated { get; set; }
+    public virtual string Content { get; set; }
 }
 
 public class NoteRecordMap : ClassMap<NoteRecord>
@@ -17,11 +17,11 @@ public class NoteRecordMap : ClassMap<NoteRecord>
     public NoteRecordMap()
     {
         Table("notes");
-        Id(x => x.Id).GeneratedBy.Identity().UnsavedValue(0);
+        Id(x => x.Id).GeneratedBy.Identity();
         Map(x => x.Reference).Not.Nullable();
         Map(x => x.Title).Not.Nullable().Length(255);
         Map(x => x.CreatedAt).Not.Nullable();
         Map(x => x.LastUpdated).Not.Nullable();
-        Map(x => x.Content).Not.Nullable().Length(int.MaxValue);
+        Map(x => x.Content).Not.Nullable();
     }
 }

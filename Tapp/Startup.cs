@@ -37,7 +37,7 @@ public static class Startup
         services.AddWpfBlazorWebView();
         services.AddMudServices();
 
-        var sessionFactory = CreateSessionFactory();
+        var sessionFactory = CreateSessionFactoryForSqlite();
         services.AddSingleton(sessionFactory);
 
         services.AddScoped(factory => sessionFactory.OpenSession());
@@ -51,7 +51,7 @@ public static class Startup
 #endif
     }
 
-    private static ISessionFactory CreateSessionFactory()
+    private static ISessionFactory CreateSessionFactoryForSqlite()
     {
         var connectionString = $"Data Source={FilePathHelper.DbFile};Version=3;New=True;";
         return Fluently.Configure()

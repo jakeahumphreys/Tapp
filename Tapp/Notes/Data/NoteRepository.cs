@@ -53,12 +53,21 @@ public sealed class NoteRepository : INoteRepository
     {
         var notes = new List<NoteDto>();
 
-        using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
+        try
         {
-            var noteRecords = _session.QueryOver<NoteRecord>().List();
-            notes = noteRecords.Select(NoteMapper.ToDto).ToList();
+            using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
+            {
+                var noteRecords = _session.QueryOver<NoteRecord>().List();
+                notes = noteRecords.Select(NoteMapper.ToDto).ToList();
+            }
         }
-
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+       
+        
         return notes;
     }
     
