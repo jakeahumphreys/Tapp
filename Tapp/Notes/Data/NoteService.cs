@@ -31,7 +31,7 @@ public sealed class NoteService : INoteService
             LastUpdated = DateTime.Now
         };
 
-        return _noteRepository.Add(noteDto);
+        return _noteRepository.Add(noteDto).Content;
     }
 
     public void DeleteNote(Guid reference)
@@ -41,11 +41,11 @@ public sealed class NoteService : INoteService
 
     public List<NoteDto> GetAll()
     {
-        return _noteRepository.GetAll();
+        return _noteRepository.GetAll().Content;
     }
 
     public NoteDto GetByReference(Guid reference)
     {
-        return _noteRepository.GetByReference(reference);
+        return _noteRepository.GetByReference(reference).Content;
     }
 }

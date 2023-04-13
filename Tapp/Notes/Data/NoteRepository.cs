@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using JCommon.Communication.Internal;
 using NHibernate;
 using Tapp.Notes.Mappers;
 using Tapp.Notes.Types.Dto;
@@ -8,10 +9,10 @@ namespace Tapp.Notes.Data;
 
 public interface INoteRepository
 {
-    public Guid Add(NoteDto noteDto);
+    public Result<Guid> Add(NoteDto noteDto);
     public void Delete(Guid reference);
-    public List<NoteDto> GetAll();
-    public NoteDto GetByReference(Guid reference);
+    public Result<List<NoteDto>> GetAll();
+    public Result<NoteDto> GetByReference(Guid reference);
 }
 
 public sealed class NoteRepository : INoteRepository
@@ -23,14 +24,14 @@ public sealed class NoteRepository : INoteRepository
         _session = session;
     }
 
-    public Guid Add(NoteDto noteDto)
+    public Result<Guid> Add(NoteDto noteDto)
     {
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
             var record = NoteMapper.ToRecord(noteDto);
             _session.Save(record);
             transaction.Commit();
-            return noteDto.Reference;
+            return new Result<Guid>(noteDto.Reference);
         }
     }
 
@@ -49,7 +50,7 @@ public sealed class NoteRepository : INoteRepository
         
     }
 
-    public List<NoteDto> GetAll()
+    public Result<List<NoteDto>> GetAll()
     {
         var notes = new List<NoteDto>();
 
@@ -68,15 +69,15 @@ public sealed class NoteRepository : INoteRepository
         }
        
         
-        return notes;
+        return new Result<List<NoteDto>>(notes);
     }
     
-    public NoteDto GetByReference(Guid reference)
+    public Result<NoteDto> GetByReference(Guid reference)
     {
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
             var record = _session.Query<NoteRecord>().SingleOrDefault(x => x.Reference == reference);
-            return NoteMapper.ToDto(record);
+            return new Result<NoteDto>(NoteMapper.ToDto(record));
         }
     }
 }

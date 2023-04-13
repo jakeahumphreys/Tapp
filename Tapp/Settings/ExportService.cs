@@ -21,7 +21,7 @@ public sealed class ExportService : IExportService
     
     public void ExportData()
     {
-        var notes = _noteRepository.GetAll();
+        var notes = _noteRepository.GetAll().Content;
 
         var export = new DataExport
         {
